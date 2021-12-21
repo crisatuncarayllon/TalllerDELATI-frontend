@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="margin:10px" >
     <h3>Algoritmo KMEANS</h3>
     <button class="btn btn-danger" (click)= "showForm = !showForm">Mostrar / Ocultar formulario</button>
     <hr>
@@ -34,7 +34,7 @@
                 <span class="input-group-text">Random State</span>
                 <input type="number" class="form-control" placeholder="Ej: 1" formControlName="random_state">
             </div>
-            <button type="submit" class="btn btn-primary">Ver Resultados</button>
+            <button type="submit" class="btn btn-primary">Evaluar</button>
         </form>
         </div>
       </div>
@@ -46,12 +46,12 @@
     <div class="container my-4" *ngIf="showResults">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="button-tab1" data-bs-toggle="tab" data-bs-target="#tab1" type="button"
-                    role="tab" aria-controls="tab1">Gráfico</button>
+                <button class="nav-link active" id="button-tab1" data-bs-toggle="tab" data-bs-target="#tab2" type="button"
+                    role="tab" aria-controls="tab2">Metricas</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="button-tab2" data-bs-toggle="tab" data-bs-target="#tab2" type="button"
-                    role="tab" aria-controls="tab2">Métricas</button>
+                <button class="nav-link" id="button-tab2" data-bs-toggle="tab" data-bs-target="#tab1" type="button"
+                    role="tab" aria-controls="tab1">Grafico</button>
             </li>
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="button-tab3" data-bs-toggle="tab" data-bs-target="#tab3" type="button"

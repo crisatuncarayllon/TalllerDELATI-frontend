@@ -1,0 +1,46 @@
+
+<div class="container"style="margin:10px" >
+    <h3>Metodo del codo</h3>
+    <button class="btn btn-danger" (click)= "showForm = !showForm">Mostrar / Ocultar formulario</button>
+    <hr>
+    <div class="row">
+      <div class="col-6">
+        <div *ngIf="showForm">
+          <form [formGroup]="form" (ngSubmit)="runMetododelCodo()" >
+            <div class="input-group mb-3">
+                <span class="input-group-text">Query</span>
+                <textarea (keyup)="autoGrowTextZone($event)" class="form-control" placeholder="Ej: SELECT * FROM ..." formControlName="query"></textarea>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Número de Clusters</span>
+                <input type="number" class="form-control" placeholder="Ej: 4" formControlName="n_clusters">
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Init</label>
+                <select class="form-select" id="inputGroupSelect01" formControlName="init">
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="k-means++">k-means++</option>
+                    <option value="random">Random</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Máx. Iteraciones</span>
+                <input type="number" class="form-control" placeholder="Ej: 1" formControlName="max_iter">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">N. Init</span>
+                <input type="number" class="form-control" placeholder="Ej: 1" formControlName="n_init">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Random State</span>
+                <input type="number" class="form-control" placeholder="Ej: 1" formControlName="random_state">
+            </div>
+            <button type="submit" class="btn btn-primary">Evaluar</button>
+        </form>
+        </div>
+      </div>
+      <div class="col-6">
+        <img [src]=" img_elbow " alt="">
+      </div>
+    </div>
+</div>

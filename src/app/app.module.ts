@@ -12,6 +12,8 @@ import { PanelComponent } from './components/panel/panel.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchClusterPipe } from './pipes/search-cluster.pipe';
+import { MetododelCodoComponent } from './components/metododel-codo/metododel-codo.component';
+import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { SearchClusterPipe } from './pipes/search-cluster.pipe';
     PanelComponent,
     NavbarComponent,
     HomeComponent,
-    SearchClusterPipe
+    SearchClusterPipe,
+    MetododelCodoComponent,
+    ClasificacionComponent
   ],
   imports: [
     AppRoutingModule,

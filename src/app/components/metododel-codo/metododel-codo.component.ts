@@ -7,10 +7,10 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-kmeans',
-  templateUrl: './kmeans.component.html',
-  styleUrls: ['./kmeans.component.scss']
+  templateUrl: './metododel-codo.component.html',
+  styleUrls: ['./metododel-codo.component.scss']
 })
-export class KmeansComponent implements OnInit {
+export class MetododelCodoComponent implements OnInit {
   page: number;
   form: FormGroup;
   response: any;
@@ -85,7 +85,7 @@ export class KmeansComponent implements OnInit {
     });
   }
 
-  runKmeans(){
+  runMetododelCodo(){
     if (this.form.invalid) {
       Swal.fire({
         title: '¡Llene todos los campos correctamente!',

@@ -7,10 +7,10 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-kmeans',
-  templateUrl: './kmeans.component.html',
-  styleUrls: ['./kmeans.component.scss']
+  templateUrl: './clasificacion.component.html',
+  styleUrls: ['./clasificacion.component.scss']
 })
-export class KmeansComponent implements OnInit {
+export class ClasificacionComponent implements OnInit {
   page: number;
   form: FormGroup;
   response: any;
@@ -68,7 +68,7 @@ export class KmeansComponent implements OnInit {
     this.form = this.formbuilder.group({
       query: ["select o.htitulo_cat, o.htitulo, w.pagina_web, o.empresa, o.lugar, o.salario, date_part('year',o.fecha_publicacion) as periodo, f_dimPuestoEmpleo(o.id_oferta,7) as funciones, f_dimPuestoEmpleo(o.id_oferta,1) as conocimiento, f_dimPuestoEmpleo(o.id_oferta,3) as habilidades, f_dimPuestoEmpleo(o.id_oferta,2) as competencias, f_dimPuestoEmpleo(o.id_oferta,17) as certificaciones, f_dimPuestoEmpleo(o.id_oferta,5) as beneficio, f_dimPuestoEmpleo(o.id_oferta,11) as formacion from webscraping w inner join oferta o on (w.id_webscraping=o.id_webscraping) where o.id_estado is null limit 500;", [Validators.required, Validators.minLength(0)]],
       // columns: ['', [Validators.required, Validators.minLength(0)]],
-      n_clusters: [5, [Validators.required, Validators.min(1)]],
+      n_clusters: [10, [Validators.required, Validators.min(1)]],
       init: ['', [Validators.required, Validators.minLength(0)]],
       max_iter: [500, [Validators.required, Validators.min(1)]],
       n_init: [1, [Validators.required, Validators.min(0)]],
@@ -85,7 +85,7 @@ export class KmeansComponent implements OnInit {
     });
   }
 
-  runKmeans(){
+  runClasificacion(){
     if (this.form.invalid) {
       Swal.fire({
         title: '¡Llene todos los campos correctamente!',

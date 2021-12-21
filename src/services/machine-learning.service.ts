@@ -10,9 +10,19 @@ export class MachineLearningService {
   constructor(private http: HttpClient) { }
 
   getAlgorithms(){ return this.http.get(this.URL + '/algorithms'); }
+  
 
   runKmeans(form: any) {
     return this.http.post(this.URL+ '/kmeans', form);
-  }
+  }  
+
+   runMetododelCodo(form: any) {
+    return this.http.post(this.URL+ '/MetododelCodo', form);
+  }  
+
+  runClasificacion(form: any) {
+    return this.http.post(this.URL+ '/Clasificacion', form);
+  }  
+
 
 }
