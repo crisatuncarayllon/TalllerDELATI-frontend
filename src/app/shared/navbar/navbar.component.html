@@ -1,0 +1,34 @@
+ <!-- Sidebar -->
+ <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+  <ul class="nav sidebar-nav">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+          <a [routerLink]="['/panel', 'inicio']"><h1 style="color:white;">DELATI</h1></a>
+        <!-- <a [routerLink]="['/panel', role, 'inicio' ]"><small>{{this.authService.userData.email}}</small> | </a> -->
+        <!-- <button type="button" (click)="logout()" class="btn-sm btn-danger">Cerrar Sesión</button> -->
+      </div>
+    </div>
+      <div>
+        <li><a [routerLink]="['/panel', 'inicio']">
+          <i class="fas fa-home mx-2"></i><span>Inicio</span>
+        </a></li>
+        <li *ngFor="let algorithm of algorithms;">
+          <a [routerLink]="['/panel', algorithm ]">
+            <i class="fab fa-react mx-2"></i><span>{{ algorithm }}</span>
+          </a>
+        </li>
+      </div>
+    <!-- <li class="dropdown">
+      <a href="#works" class="dropdown-toggle" data-toggle="dropdown">Works <span class="caret"></span></a>
+      <ul class="dropdown-menu animated fadeInLeft" role="menu">
+        <div class="dropdown-header">Dropdown heading</div>
+        <li><a href="#pictures">Pictures</a></li>
+        <li><a href="#videos">Videeos</a></li>
+        <li><a href="#books">Books</a></li>
+        <li><a href="#art">Art</a></li>
+        <li><a href="#awards">Awards</a></li>
+      </ul>
+    </li> -->
+  </ul>
+</nav>
+<!-- /#sidebar-wrapper -->

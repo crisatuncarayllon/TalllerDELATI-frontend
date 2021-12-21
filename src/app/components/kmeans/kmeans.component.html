@@ -1,0 +1,177 @@
+<div class="container">
+    <h3>Algoritmo KMEANS</h3>
+    <button class="btn btn-danger" (click)= "showForm = !showForm">Mostrar / Ocultar formulario</button>
+    <hr>
+    <div class="row">
+      <div class="col-6">
+        <div *ngIf="showForm">
+          <form [formGroup]="form" (ngSubmit)="runKmeans()" >
+            <div class="input-group mb-3">
+                <span class="input-group-text">Query</span>
+                <textarea (keyup)="autoGrowTextZone($event)" class="form-control" placeholder="Ej: SELECT * FROM ..." formControlName="query"></textarea>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Número de Clusters</span>
+                <input type="number" class="form-control" placeholder="Ej: 4" formControlName="n_clusters">
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Init</label>
+                <select class="form-select" id="inputGroupSelect01" formControlName="init">
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="k-means++">k-means++</option>
+                    <option value="random">Random</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Máx. Iteraciones</span>
+                <input type="number" class="form-control" placeholder="Ej: 1" formControlName="max_iter">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">N. Init</span>
+                <input type="number" class="form-control" placeholder="Ej: 1" formControlName="n_init">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Random State</span>
+                <input type="number" class="form-control" placeholder="Ej: 1" formControlName="random_state">
+            </div>
+            <button type="submit" class="btn btn-primary">Ver Resultados</button>
+        </form>
+        </div>
+      </div>
+      <div class="col-6">
+        <img [src]=" img_elbow " alt="">
+      </div>
+    </div>
+    <!-- TAB NAV -->
+    <div class="container my-4" *ngIf="showResults">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="button-tab1" data-bs-toggle="tab" data-bs-target="#tab1" type="button"
+                    role="tab" aria-controls="tab1">Gráfico</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="button-tab2" data-bs-toggle="tab" data-bs-target="#tab2" type="button"
+                    role="tab" aria-controls="tab2">Métricas</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="button-tab3" data-bs-toggle="tab" data-bs-target="#tab3" type="button"
+                  role="tab" aria-controls="tab3">Instancias</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane show active fade py-5" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            <div class="row">
+              <div class="col-6">
+            <p>Seleccione 2 columnas para mostrarlas en el gráfico</p>
+            <form [formGroup]="form" (ngSubmit)="runKmeans()" >
+              <div class="input-group">
+                <span class="input-group-text">Ejes</span>
+                <select class="form-select" id="inputGroupSelect02" formControlName="axis_x">
+                    <!-- <option value="" disabled selected>Eje X</option> -->
+                    <option [value]="i" *ngFor="let item of columns; let i = index">{{item}}</option>
+                </select>
+                <select class="form-select" id="inputGroupSelect03" formControlName="axis_y">
+                  <!-- <option value="" disabled selected>Eje Y</option> -->
+                  <option [value]="i" *ngFor="let item of columns; let i = index;">{{item}}</option>
+               </select>
+              </div>
+              <button type="submit" class="btn btn-warning">Mostrar</button>
+            </form>
+
+            <img [src]="img" alt="" height="600px" width="100%">
+              </div>
+              <div class="col-6">
+                <div  style="overflow: auto;">
+                  <table class="table table-bordered table-hover"  style="width:800px;">
+                    <thead class="table-info">
+                        <tr>
+                            <th style="text-align: center;" scope="col">#</th>
+                            <th style="text-align: center;" scope="col">Centroide</th>
+                            <th style="text-align: center;" scope="col">Nombre</th>
+                            <th style="text-align: center;" scope="col">Posición (En Dataset)</th>
+                            <th style="text-align: center;" scope="col" colspan="2">Coordenadas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let element of response?.centroids; let i = index">
+                          <th scope="row">{{ i + 1 }}</th>
+                          <td>Centroide {{ i }}</td>
+                          <td><span *ngFor="let title of element?.title_cluster"> {{ title ? title : '-' }} <b>|</b></span></td>
+                          <!-- <td>{{ element?.distance | number : '1.2-3' }}</td> -->
+                          <td>{{ element?.position }}</td>
+                          <td><button class="btn btn-warning" (click)="showMore(i)">Ver más</button></td>
+                          <!-- <td>{{ element?.point[0] | number : '1.2-2' }}</td> -->
+                      </tr>
+                  </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade py-5" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <div class="container">
+              <ul>
+                <li>Inercia: {{ response?.inertia | number: '1.2-3' }}</li>
+                <li>Número de iteraciones : {{ response?.n_iter | number: '1.2-3' }}</li>
+                <li>Total de instancias : {{ response?.total_instances }}</li>
+              </ul>
+              <table class="table table-bordered table-hover">
+                <thead class="table-info">
+                    <tr>
+                        <th style="text-align: center;" scope="col">#</th>
+                        <th style="text-align: center;" scope="col">Cluster</th>
+                        <th style="text-align: center;" scope="col">Nombre del Cluster</th>
+                        <th style="text-align: center;" scope="col">N. elementos</th>
+                        <th style="text-align: center;" scope="col">Porcentaje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let element of clusters; let i = index">
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>{{ element?.cluster }}</td>
+                      <td><span *ngFor="let title of element?.title_cluster"> {{ title ? title : '-' }} <b>|</b></span></td>
+                      <td>{{ element?.length }}</td>
+                      <td>{{ element?.percentage }}%</td>
+                  </tr>
+              </tbody>
+              </table>
+            </div>
+        </div>
+            <div class="tab-pane fade py-5" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                <div style="overflow: auto;">
+                  <div class="input-group mb-3" style="width: 300px;">
+                    <span class="input-group-text">Buscar por cluster</span>
+                  <select class="form-select" [(ngModel)]="searchCluster" >
+                    <option selected value="">Todos</option>
+                    <option *ngFor="let item of clusters; let i=index;" [value]="i">Cluster {{i}}</option>
+                  </select>
+                  </div>
+                <table class="table table-bordered table-hover" style="width: 1000px;">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Cluster</th>
+                            <th scope="col">Posición Inicial</th>
+                            <th scope="col" *ngFor="let column of columns">{{ column }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let element of data | searchCluster:searchCluster | paginate: { itemsPerPage:20, currentPage: page };let i=index;">
+                            <th [ngClass]="{'is_centroid': centroids_idx.indexOf(element.index) > -1 }" scope="row">{{(page-1) * 20 + i + 1}}</th>
+                            <td [ngClass]="{'is_centroid': centroids_idx.indexOf(element.index) > -1 }">{{ element?.cluster }}</td>
+                            <td [ngClass]="{'is_centroid': centroids_idx.indexOf(element.index) > -1 }">{{ element?.index }}</td>
+                            <td [ngClass]="{'is_centroid': centroids_idx.indexOf(element.index) > -1 }" *ngFor="let column of columns;">
+                              {{element[column] ? element[column]:'-'}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                <pagination-controls (pageChange)="page=$event" previousLabel="Anterior" nextLabel="Siguiente">
+                </pagination-controls>
+            </div>
+
+
+        </div>
+    </div>
+</div>
