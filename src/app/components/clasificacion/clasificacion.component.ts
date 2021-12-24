@@ -105,7 +105,7 @@ export class ClasificacionComponent implements OnInit {
     // let columns= [];
     // columns.push(column_1, column_2);
     // this.form.controls["columns"].setValue(columns);
-    this.machineLearningService.runKmeans(this.form.value).subscribe((result: any)=>{
+    this.machineLearningService.runClasificacion(this.form.value).subscribe((result: any)=>{
       Swal.close();
       this.showResults = true;
       this.response = result;

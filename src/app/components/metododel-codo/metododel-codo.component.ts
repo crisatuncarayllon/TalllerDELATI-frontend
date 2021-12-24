@@ -105,18 +105,12 @@ export class MetododelCodoComponent implements OnInit {
     // let columns= [];
     // columns.push(column_1, column_2);
     // this.form.controls["columns"].setValue(columns);
-    this.machineLearningService.runKmeans(this.form.value).subscribe((result: any)=>{
+    this.machineLearningService.runMetododelCodo(this.form.value).subscribe((result: any)=>{
       Swal.close();
       this.showResults = true;
       this.response = result;
       // console.log(this.response);
-      this.data = result?.data.data;
-      this.columns = result?.columns.filter((item:any) => item !== "cluster");
-      let no_sorted_clusters = result?.clusters;
-      this.clusters = no_sorted_clusters.sort((a:any, b:any) => b?.percentage-a?.percentage);
-      this.centroids_idx = result?.centroids.map((val:any) => val.position );
-      this.img = 'data:image/jpg;base64,'
-                 + this.response?.graphic;
+      
       this.img_elbow = 'data:image/jpg;base64,'
                  + this.response?.elbow_method;
     }, (err:any)=>{
