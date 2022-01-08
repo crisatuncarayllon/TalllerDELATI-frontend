@@ -66,11 +66,11 @@ export class ClasificacionComponent implements OnInit {
 
   sendData() {
     this.form = this.formbuilder.group({
-      query: ["select o.htitulo_cat, o.htitulo, w.pagina_web, o.empresa, o.lugar, o.salario, date_part('year',o.fecha_publicacion) as periodo, f_dimPuestoEmpleo(o.id_oferta,7) as funciones, f_dimPuestoEmpleo(o.id_oferta,1) as conocimiento, f_dimPuestoEmpleo(o.id_oferta,3) as habilidades, f_dimPuestoEmpleo(o.id_oferta,2) as competencias, f_dimPuestoEmpleo(o.id_oferta,17) as certificaciones, f_dimPuestoEmpleo(o.id_oferta,5) as beneficio, f_dimPuestoEmpleo(o.id_oferta,11) as formacion from webscraping w inner join oferta o on (w.id_webscraping=o.id_webscraping) where o.id_estado is null limit 500;", [Validators.required, Validators.minLength(0)]],
+      query: ["select o.htitulo_cat, o.htitulo, w.pagina_web, o.empresa, o.lugar, o.salario, date_part('year',o.fecha_publicacion) as periodo, f_dimPuestoEmpleo(o.id_oferta,7) as funciones, f_dimPuestoEmpleo(o.id_oferta,1) as conocimiento, f_dimPuestoEmpleo(o.id_oferta,3) as habilidades, f_dimPuestoEmpleo(o.id_oferta,2) as competencias, f_dimPuestoEmpleo(o.id_oferta,17) as certificaciones, f_dimPuestoEmpleo(o.id_oferta,5) as beneficio, f_dimPuestoEmpleo(o.id_oferta,11) as formacion from webscraping w inner join oferta o on (w.id_webscraping=o.id_webscraping) where o.id_estado is null;", [Validators.required, Validators.minLength(0)]],
       // columns: ['', [Validators.required, Validators.minLength(0)]],
       n_clusters: [10, [Validators.required, Validators.min(1)]],
       init: ['', [Validators.required, Validators.minLength(0)]],
-      max_iter: [500, [Validators.required, Validators.min(1)]],
+      max_iter: [300, [Validators.required, Validators.min(1)]],
       n_init: [1, [Validators.required, Validators.min(0)]],
       random_state: [0, [Validators.required, Validators.min(0)]],
       axis_x: [0, [ Validators.min(0)]],
@@ -86,6 +86,8 @@ export class ClasificacionComponent implements OnInit {
   }
 
   runClasificacion(){
+
+    let nClusters = this.form.controls['n_clusters'].value;
     if (this.form.invalid) {
       Swal.fire({
         title: '¡Llene todos los campos correctamente!',
@@ -94,6 +96,62 @@ export class ClasificacionComponent implements OnInit {
     });
       return;
     }
+
+    if (parseInt(nClusters)>25) { 
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+
+      swalWithBootstrapButtons.fire({        
+        title: 'El número de Clusters es demasiado grande. Se va tomar tiempo en procesar',    
+        text: 'Desea continuar?',  
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, deseo continuar!',
+        cancelButtonText: 'No, cancelar!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Cargando ...',
+                  // allowOutsideClick: false
+            });
+            Swal.showLoading();
+            // let column_1 = this.form.get('column_1')?.value;
+            // let column_2 = this.form.get('column_2')?.value;
+            // let columns= [];
+            // columns.push(column_1, column_2);
+            // this.form.controls["columns"].setValue(columns);
+            this.machineLearningService.runMetododelCodo(this.form.value).subscribe((result: any)=>{
+              Swal.close();
+              this.showResults = true;
+              this.response = result;
+              // console.log(this.response);              
+              this.img_elbow = 'data:image/jpg;base64,'
+                        + this.response?.elbow_method;
+            }, (err:any)=>{
+              Swal.close();
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '!Ocurrió un error!',
+              })
+            });
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelado',
+          )
+        }
+      })    
+      return;        
+    }   
 
     Swal.fire({
           title: 'Cargando ...',

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class MachineLearningService {
-  readonly URL = 'http://127.0.0.1:5000';
+  readonly URL = 'https://tallerdelati-backend.herokuapp.com';
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +23,4 @@ export class MachineLearningService {
   runClasificacion(form: any) {
     return this.http.post(this.URL+ '/Clasificacion', form);
   }  
-
-
 }
