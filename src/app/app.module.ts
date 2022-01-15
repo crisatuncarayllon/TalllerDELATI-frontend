@@ -4,6 +4,8 @@ import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { AppRoutingModule } from './app-routing.module';
+//import { NgxChartsModule }from '@swimlane/ngx-charts';
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /* import { AppRoutingModule } from './app-routing.module'; */
 import { AppComponent } from './app.component';
@@ -14,6 +16,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SearchClusterPipe } from './pipes/search-cluster.pipe';
 import { MetododelCodoComponent } from './components/metododel-codo/metododel-codo.component';
 import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
+import { Chart } from 'chart.js';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,7 @@ import { ClasificacionComponent } from './components/clasificacion/clasificacion
     HomeComponent,
     SearchClusterPipe,
     MetododelCodoComponent,
-    ClasificacionComponent
+    ClasificacionComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -32,7 +35,10 @@ import { ClasificacionComponent } from './components/clasificacion/clasificacion
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    
+    //BrowserAnimationsModule,
+    //NgxChartsModule
   ],
   exports: [
     NgxPaginationModule
