@@ -5,8 +5,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class MachineLearningService {
-  readonly URL = 'https://tallerdelati-backend.herokuapp.com';
-
+  //readonly URL = 'https://tallerdelati-backend.herokuapp.com';//heroku
+  readonly URL = 'http://128.199.1.222:5001';//cloud
+  //readonly URL = 'http://127.0.0.1:5000';//local 
   constructor(private http: HttpClient) { }
 
   getAlgorithms(){ return this.http.get(this.URL + '/algorithms'); }
