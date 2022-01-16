@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class MachineLearningWekaService {
   //readonly URL = 'https://delati-pmljs17v1-backend.herokuapp.com';
   //readonly URL = 'http://127.0.0.1:5000'; 
-  readonly URL = 'https://delatibackweka.herokuapp.com/';
+  readonly URL = 'https://delatibackweka.herokuapp.com/';//es la dirección donde se encuentra subido el backend en heroku
   //readonly URL = 'http://localhost:8080';
   
   constructor(private http: HttpClient) { }
